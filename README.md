@@ -25,7 +25,7 @@ The core objective is to implement a **Key Management System (KMS)** that suppor
     *   **Memory Usage:** Monitors RAM consumption during operations.
     *   Persists performance metrics in the DB for reporting and analysis.
 
-## 🛠️ System Architecture
+## System Architecture
 
 ### Database Schema (ER Model)
 The application utilizes a relational database with the following core entities:
