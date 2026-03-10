@@ -34,6 +34,10 @@ The application utilizes a relational database with the following core entities:
 *   **`Files`**: Registry of processed files linked to their specific keys.
 *   **`PerformanceLogs`**: Comparative data (Engine, Operation, Time, Memory).
 
+<p align="center">
+  <img src="images/diagrama_si.png" width="600">
+</p>
+
 ## Prerequisites
 
 Before running the application, ensure you have the following installed:
