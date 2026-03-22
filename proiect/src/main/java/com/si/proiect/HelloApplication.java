@@ -12,7 +12,9 @@ public class HelloApplication extends Application {
     public void start(Stage primaryStage) {
         DatabaseManager.initialize();
 
-        Label label = new Label("Ready");
+        DatabaseTester.ruleazaTesteCRUD();
+
+        Label label = new Label("Baza de date functioneaza! Verifica Consola IntelliJ.");
         StackPane root = new StackPane(label);
         Scene scene = new Scene(root, 400, 300);
 
