@@ -10,7 +10,7 @@
     </padding>
 
     <!--adaugare algoritm-->
-    <Label text="Adauga Algoritm Nou" style="-fx-font-weight: bold;"/>
+    <Label text="Adauga algoritm nou" style="-fx-font-weight: bold;"/>
     <GridPane hgap="10" vgap="10">
         <Label text="Nume:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField fx:id="algNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
@@ -18,20 +18,20 @@
         <Label text="Tip (Simetric/Asimetric):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
         <TextField fx:id="algTypeField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
     </GridPane>
-    <Button text="Salveaza Algoritm" onAction="#onAddAlgorithmClick" maxWidth="Infinity"/>
+    <Button text="Salveaza algoritm" onAction="#onAddAlgorithmClick" maxWidth="Infinity"/>
 
     <Separator/>
 
     <!--adaugarea rezultatului-->
-    <Label text="Adauga Rezultat Test" style="-fx-font-weight: bold;"/>
+    <Label text="Adauga rezultat test" style="-fx-font-weight: bold;"/>
     <GridPane hgap="10" vgap="10">
-        <Label text="Timp Executie(ms):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label text="Timp executie(ms):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField fx:id="execTimeField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-        <Label text="Alege Algoritm:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label text="Alege algoritm:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
         <ComboBox fx:id="algComboBox" GridPane.rowIndex="1" GridPane.columnIndex="1" maxWidth="Infinity"/>
     </GridPane>
-    <Button text="Salveaza Rezultat" onAction="#onAddResultClick" maxWidth="Infinity"/>
+    <Button text="Salveaza rezultat" onAction="#onAddResultClick" maxWidth="Infinity"/>
 
     <Label fx:id="statusLabel" text="Status: Gata" style="-fx-text-fill: blue;"/>
 </VBox>
