@@ -17,7 +17,7 @@ public class HelloApplication extends Application {
         /*Label label = new Label("Baza de date functioneaza! Verifica Consola IntelliJ.");
         StackPane root = new StackPane(label);*/
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 400, 300);
+        Scene scene = new Scene(fxmlLoader.load(), 500, 400);
 
         primaryStage.setTitle("App");
         primaryStage.setScene(scene);
