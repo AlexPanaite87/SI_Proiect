@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DatabaseTester {
 
-    public static void ruleazaTesteCRUD() {
+    public static void runCRUDTests() {
         AlgorithmDAO algorithmDAO = new AlgorithmDAO();
         FrameworkDAO frameworkDAO = new FrameworkDAO();
 
@@ -32,14 +32,14 @@ public class DatabaseTester {
         }
 
         System.out.println("\nAlgoritmi gasiti in DB:");
-        List<Algorithm> algoritmi = algorithmDAO.findAll();
-        for (Algorithm a : algoritmi) {
+        List<Algorithm> algorithms = algorithmDAO.findAll();
+        for (Algorithm a : algorithms) {
             System.out.println(" - ID: " + a.getId() + " | Nume: " + a.getName() + " | Tip: " + a.getType());
         }
 
         System.out.println("\nFramework-uri gasite in DB:");
-        List<Framework> frameworkuri = frameworkDAO.findAll();
-        for (Framework f : frameworkuri) {
+        List<Framework> frameworks = frameworkDAO.findAll();
+        for (Framework f : frameworks) {
             System.out.println(" - ID: " + f.getId() + " | Nume: " + f.getName());
         }
 

@@ -12,12 +12,10 @@ public class HelloApplication extends Application {
     public void start(Stage primaryStage) throws IOException {
         DatabaseManager.initialize();
 
-        DatabaseTester.ruleazaTesteCRUD();
+        //DatabaseTester.runCRUDTests();
 
-        /*Label label = new Label("Baza de date functioneaza! Verifica Consola IntelliJ.");
-        StackPane root = new StackPane(label);*/
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 500, 550);
 
         primaryStage.setTitle("App");
         primaryStage.setScene(scene);
