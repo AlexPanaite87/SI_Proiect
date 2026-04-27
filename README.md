@@ -35,6 +35,7 @@ The application utilizes a relational database with the following core entities:
 *   **`PerformanceLogs`**: Comparative data (Engine, Operation, Time, Memory).
 
 <p align="center">
+   <img src="diagrama/diagrama_si.png" width="600">
 </p>
 
 ## Prerequisites
