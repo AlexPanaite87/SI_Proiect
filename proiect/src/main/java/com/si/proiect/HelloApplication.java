@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
         //DatabaseTester.runCRUDTests();
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 550);
+        Scene scene = new Scene(fxmlLoader.load(), 700, 650);
 
         primaryStage.setTitle("App");
         primaryStage.setScene(scene);
