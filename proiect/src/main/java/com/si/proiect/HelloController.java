@@ -123,7 +123,7 @@ public class HelloController {
         try {
             String inputPath = selectedFile.getAbsolutePath();
             String outputPathOpenSSL = inputPath + ".enc";
-            String outputPathJCA = inputPath + ".jca.enc"; // Cale distinctă pentru JCA
+            String outputPathJCA = inputPath + ".jca.enc";
             String databaseKey = KeyGeneratorService.generateSecureKey();
 
             long execTimeOpenSSL = OpenSSLService.encrypt(inputPath, outputPathOpenSSL, databaseKey, selectedAlgorithm.getName());

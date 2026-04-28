@@ -48,6 +48,6 @@
     <Label text="Status" style="-fx-text-fill: gray;"/>
     <Separator/>
     <Label fx:id="statusLabel" text="Asteptare actiune..." style="-fx-text-fill: blue; -fx-font-weight: bold;" wrapText="true" textAlignment="CENTER"/>
-    <Button text="Mod Debug: Obtinere Chei DB" onAction="#onDebugKeysClick" maxWidth="Infinity" style="-fx-background-color: #ffcc00; -fx-font-weight: bold;"/>
+    <Button text="Mod Debug: Obtinere chei DB" onAction="#onDebugKeysClick" maxWidth="Infinity"/>
 
 </VBox>
