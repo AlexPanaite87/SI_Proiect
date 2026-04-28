@@ -16,7 +16,7 @@ public class OpenSSLService {
             command.add("-in"); command.add(inputFile);
             command.add("-out"); command.add(outputFile);
         } else {
-            command.add("openssl"); command.add("enc");
+            command.add("tools/openssl.exe"); command.add("enc");
             if (upperName.contains("AES")) command.add("-aes-256-cbc");
             else if (upperName.contains("DES3")) command.add("-des3");
             else if (upperName.contains("DES")) command.add("-des");
