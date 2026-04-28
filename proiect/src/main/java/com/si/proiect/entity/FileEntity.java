@@ -23,6 +23,9 @@ public class FileEntity {
     @Column(nullable = false)
     private String state;
 
+    @Column(name = "file_hash")
+    private String fileHash;
+
     public FileEntity() {}
 
     public Integer getId() { return id; }
@@ -35,4 +38,6 @@ public class FileEntity {
     public void setFilePath(String filePath) { this.filePath = filePath; }
     public String getState() { return state; }
     public void setState(String state) { this.state = state; }
+    public String getFileHash() { return fileHash; }
+    public void setFileHash(String fileHash) { this.fileHash = fileHash; }
 }

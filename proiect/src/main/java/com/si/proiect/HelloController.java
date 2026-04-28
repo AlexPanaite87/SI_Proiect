@@ -114,22 +114,69 @@ public class HelloController {
 
             String inputFile = "test_input.txt";
             String outputFile = "test_output.enc";
-            String databaseKey = "parolaSuperSecreta123";
+            String databaseKey = KeyGeneratorService.generateSecureKey();
 
             writeString(Paths.get(inputFile), "The quick brown fox jumps over the lazy dog.");
 
             long execTimeOpenSSL = OpenSSLService.encrypt(inputFile, outputFile, databaseKey, selectedAlgorithm.getName());
             String hashFile = HashUtils.calculateSHA256(outputFile);
 
-            execTimeField.setText(String.valueOf(execTimeOpenSSL));
-
             String outputfileJCA = "test_output_jca.enc";
             long execTimeJCA = JavaCryptoService.encrypt(inputFile, outputfileJCA, databaseKey, selectedAlgorithm.getName());
 
-            statusLabel.setText("OpenSSL: " + execTimeOpenSSL + "ms | JCA: " + execTimeJCA + "ms | Hash: " + hashFile);
+            String todayDate = LocalDateTime.now().toString();
+
+            EncryptionKey key = new EncryptionKey();
+            key.setAlgorithm(selectedAlgorithm);
+            key.setKeyValue(databaseKey);
+            key.setCreationDate(todayDate);
+            keyDAO.save(key);
+
+            FileEntity file = new FileEntity();
+            file.setName(outputFile);
+            file.setFilePath(Paths.get(outputFile).toAbsolutePath().toString());
+            file.setState("CRIPTAT");
+            file.setKey(key);
+            file.setFileHash(hashFile);
+            fileDAO.save(file);
+
+            List<Framework> fwList = fwDAO.findAll();
+            if (!fwList.isEmpty()) {
+                Framework openSSLFramework = fwList.get(0);
+                Result result = new Result();
+                result.setExecutionTime((double) execTimeOpenSSL);
+                result.setAlgorithm(selectedAlgorithm);
+                result.setTestDate(todayDate);
+                result.setFramework(openSSLFramework);
+                result.setFile(file);
+                resDAO.save(result);
+            }
+
+            execTimeField.setText(String.valueOf(execTimeOpenSSL));
+            statusLabel.setText("Criptat si Salvat in DB! O-SSL: " + execTimeOpenSSL + "ms | Hash: " + hashFile.substring(0, 10) + "...");
+
         } catch (Exception e) {
             e.printStackTrace();
             statusLabel.setText("Eroare la criptare: " + e.getMessage());
         }
+    }
+
+    @FXML
+    protected void onDebugKeysClick() {
+        List<EncryptionKey> keys = keyDAO.findAll();
+        StringBuilder sb = new StringBuilder();
+
+        for (EncryptionKey k : keys) {
+            sb.append("ID: ").append(k.getId())
+                    .append(" | Algoritm: ").append(k.getAlgorithm().getName())
+                    .append(" | Cheie: ").append(k.getKeyValue())
+                    .append("\n");
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Mod Debug");
+        alert.setHeaderText("Cheile salvate in Baza de Date:");
+        alert.setContentText(sb.toString().isEmpty() ? "Nu exista chei!" : sb.toString());
+        alert.showAndWait();
     }
 }
