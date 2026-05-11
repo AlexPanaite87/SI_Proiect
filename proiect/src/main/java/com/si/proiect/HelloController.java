@@ -16,8 +16,9 @@ import java.util.List;
 import static java.nio.file.Files.writeString;
 
 public class HelloController {
-    @FXML private TextField algNameField, algTypeField, execTimeField;
+    @FXML private TextField algNameField, execTimeField;
     @FXML private ComboBox<Algorithm> algComboBox;
+    @FXML private ComboBox<String> algTypeComboBox;
     private File selectedFile;
     @FXML private Label fileStatusLabel;
     @FXML private Label statusLabel;
@@ -42,9 +43,15 @@ public class HelloController {
 
     @FXML
     protected void onAddAlgorithmClick() {
+        String tipSelectat = algTypeComboBox.getSelectionModel().getSelectedItem();
+
+        if (tipSelectat == null) {
+            statusLabel.setText("Eroare: Alege un tip (Simetric/Asimetric)!");
+            return;
+        }
         Algorithm a = new Algorithm();
         a.setName(algNameField.getText());
-        a.setType(algTypeField.getText());
+        a.setType(algTypeComboBox.getSelectionModel().getSelectedItem());
 
         algDAO.save(a);
         statusLabel.setText("Algoritm salvat!");
@@ -123,19 +130,27 @@ public class HelloController {
         try {
             String inputPath = selectedFile.getAbsolutePath();
             String outputPathOpenSSL = inputPath + ".enc";
-            String outputPathJCA = inputPath + ".jca.enc";
             String databaseKey = KeyGeneratorService.generateSecureKey();
 
-            long execTimeOpenSSL = OpenSSLService.encrypt(inputPath, outputPathOpenSSL, databaseKey, selectedAlgorithm.getName());
-            long execTimeJCA = JavaCryptoService.encrypt(inputPath, outputPathJCA, databaseKey, selectedAlgorithm.getName());
+            long[] statsOpenSSL = OpenSSLService.encrypt(inputPath, outputPathOpenSSL, databaseKey, selectedAlgorithm.getName());
+            long[] statsJCA = new long[]{0, 0};
+            if (!selectedAlgorithm.getName().equalsIgnoreCase("RSA")) {
+                String outputPathJCA = inputPath + ".jca.enc";
+                statsJCA = JavaCryptoService.encrypt(inputPath, outputPathJCA, databaseKey, selectedAlgorithm.getName());
+            } else {
+                statusLabel.setText("RSA: Criptat doar cu OpenSSL (Asimetric)");
+            }
 
             String hashFile = HashUtils.calculateSHA256(outputPathOpenSSL);
-
             String todayDate = LocalDateTime.now().toString();
 
+            String keyToSave = databaseKey;
+            if (selectedAlgorithm.getName().equalsIgnoreCase("RSA")) {
+                keyToSave = "PUBLIC_KEY_FILE: public.pem";
+            }
             EncryptionKey key = new EncryptionKey();
             key.setAlgorithm(selectedAlgorithm);
-            key.setKeyValue(databaseKey);
+            key.setKeyValue(keyToSave);
             key.setCreationDate(todayDate);
             keyDAO.save(key);
 
@@ -150,7 +165,7 @@ public class HelloController {
             if (!fwList.isEmpty()) {
                 Framework openSSLFramework = fwList.get(0);
                 Result result = new Result();
-                result.setExecutionTime((double) execTimeOpenSSL);
+                result.setExecutionTime((double) statsOpenSSL[0]);
                 result.setAlgorithm(selectedAlgorithm);
                 result.setTestDate(todayDate);
                 result.setFramework(openSSLFramework);
@@ -158,8 +173,8 @@ public class HelloController {
                 resDAO.save(result);
             }
 
-            execTimeField.setText(String.valueOf(execTimeOpenSSL));
-            statusLabel.setText("OpenSSL: " + execTimeOpenSSL + "ms | JCA: " + execTimeJCA + "ms | Hash: " + hashFile.substring(0, 64));
+            execTimeField.setText(String.valueOf(statsOpenSSL[0]));
+            statusLabel.setText(String.format("OpenSSL: %dms, %d bytes | JCA: %dms, %d bytes", statsOpenSSL[0], statsOpenSSL[1], statsJCA[0], statsJCA[1]));
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Cheie de criptare");
@@ -200,7 +215,7 @@ public class HelloController {
 
         if (this.selectedFile != null) {
             fileStatusLabel.setText("Fisier: " + selectedFile.getName());
-            statusLabel.setText("Fisier pregătit pentru criptare.");
+            statusLabel.setText("Fisier pregatit pentru criptare.");
         }
     }
 }

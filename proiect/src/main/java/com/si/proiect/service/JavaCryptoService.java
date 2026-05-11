@@ -7,8 +7,13 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class JavaCryptoService {
-    public static long encrypt(String inputFile, String outputFile, String keyString, String algorithmName) throws Exception {
+    public static long[] encrypt(String inputFile, String outputFile, String keyString, String algorithmName) throws Exception {
+        if (algorithmName.toUpperCase().contains("RSA")) {
+            throw new IllegalArgumentException("Nu exista implementare pentru RSA in framework ul JCA.");
+        }
+        System.gc();
         long startTime = System.currentTimeMillis();
+        long memBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         String upperName = algorithmName.toUpperCase();
 
         String jcaAlgo = "AES";
@@ -28,6 +33,9 @@ public class JavaCryptoService {
         byte[] inputBytes = Files.readAllBytes(Paths.get(inputFile));
         Files.write(Paths.get(outputFile), cipher.doFinal(inputBytes));
 
-        return System.currentTimeMillis() - startTime;
+        long endTime = System.currentTimeMillis();
+        long memAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        return new long[] { (endTime - startTime), (memAfter - memBefore) };
     }
 }

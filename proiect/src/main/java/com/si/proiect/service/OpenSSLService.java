@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OpenSSLService {
-    public static long encrypt(String inputFile, String outputFile, String key, String algorithmName) throws Exception {
+    public static long[] encrypt(String inputFile, String outputFile, String key, String algorithmName) throws Exception {
+        System.gc();
+        long memBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         long startTime = System.currentTimeMillis();
         List<String> command = new ArrayList<>();
         String upperName = algorithmName.toUpperCase();
@@ -33,7 +35,8 @@ public class OpenSSLService {
         ProcessBuilder pb = new ProcessBuilder(command);
         Process process = pb.start();
         process.waitFor();
-
-        return System.currentTimeMillis() - startTime;
+        long endTime = System.currentTimeMillis();
+        long memAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        return new long[] { (endTime - startTime), (memAfter - memBefore) };
     }
 }

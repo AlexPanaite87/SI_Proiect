@@ -3,6 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <VBox alignment="TOP_CENTER" spacing="15.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.si.proiect.HelloController" prefWidth="450">
     <padding>
@@ -15,7 +17,14 @@
         <TextField fx:id="algNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
         <Label text="Tip (Simetric/Asimetric):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="algTypeField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <ComboBox fx:id="algTypeComboBox" promptText="Selecteaza tipul" GridPane.rowIndex="1" GridPane.columnIndex="1" maxWidth="Infinity">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Simetric" />
+                    <String fx:value="Asimetric" />
+                </FXCollections>
+            </items>
+        </ComboBox>
     </GridPane>
     <Button text="Salveaza algoritm in DB" onAction="#onAddAlgorithmClick" maxWidth="Infinity"/>
 

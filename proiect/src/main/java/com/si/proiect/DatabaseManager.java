@@ -1,5 +1,6 @@
 package com.si.proiect;
 
+import com.si.proiect.dao.FrameworkDAO;
 import com.si.proiect.entity.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -30,8 +31,22 @@ public class DatabaseManager {
                     .applySettings(configuration.getProperties()).build();
 
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+            bootstrapData();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static void bootstrapData() {
+        try {
+            FrameworkDAO fwDAO = new FrameworkDAO();
+            if (fwDAO.findAll().isEmpty()) {
+                fwDAO.save(new Framework("OpenSSL"));
+                fwDAO.save(new Framework("JCA"));
+                System.out.println("Frameworks initialized.");
+            }
+        } catch (Exception e) {
+            System.err.println("Nu s-au putut popula framework-urile: " + e.getMessage());
         }
     }
 
